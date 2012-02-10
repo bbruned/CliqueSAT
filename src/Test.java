@@ -12,6 +12,7 @@ public class Test {
 		c.LoadData("egfr20_flat");
 		//c.LoadData("tcrsig40_flat");
 		c.Solve();
+		c.Save("cliques");
 	}
 
 }

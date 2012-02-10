@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -32,7 +35,7 @@ public class Clique {
 				Sorte s =new Sorte(temp[1]);
 				int nb=Integer.parseInt(temp[2]);
 		        for (int i=0; i<nb+1; i++){ 
-		        	s.Processus.add(new Processus(temp[1],Dim));
+		        	s.Processus.add(new Processus(temp[1],Dim,i));
 		        	Dim++;
 		        	//System.out.println(Dim);
 		        }
@@ -140,7 +143,30 @@ public class Clique {
 		}
 	}
 	
-	public void Save(){
-		
+	//sauvegarde des cliques trouvées dans un fichier texte
+	public void Save(String fichier) throws IOException{
+		Writer writer = new FileWriter(fichier+".txt"); 
+		Vector<String> affiche=new Vector<String>();
+		if (!Cliques.isEmpty()){
+			writer.write(Cliques.size()+" cliques"+" : "+"\n");
+			// affichage de toutes les cliques
+			for(Sorte s: Cliques)	{  
+				writer.write("["+" ");
+				for(Processus p:s.Processus){
+					affiche.add(p.Sorte+"_"+p.indice+" ");
+				}
+				//tri alphabétique
+				Collections.sort(affiche);
+				for(String st:affiche){
+					writer.write(st);
+				}
+				affiche=new Vector<String>();
+				writer.write("]"+"\n");
+			}
+		}
+		else{
+			writer.write("aucune clique"+"\n");
+		}			
+		writer.close();
 	}
 }
